@@ -1,0 +1,4 @@
+# Generated and secret-like files should not enter a default pack.
+ignored.txt
+build/
+*.secret

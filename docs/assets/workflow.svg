@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 440" role="img" aria-labelledby="title desc">
+  <title id="title">How context-pack builds a focused repository briefing</title>
+  <desc id="desc">Choose a repository and changed or explicit files. Apply ignore rules, deduplication, and byte and token budgets. Produce a deterministic Markdown or JSON context pack, with exclusions explained.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#10182b"/>
+      <stop offset="1" stop-color="#20213e"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#79e0d3"/>
+      <stop offset="1" stop-color="#8bb9ff"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-25%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#080d19" flood-opacity=".3"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M1 1 9 5 1 9" fill="none" stroke="#7184b4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <style>
+      text { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .muted { fill: #aab6d0; }
+      .body { fill: #e7ecf6; font-size: 15px; }
+      .label { fill: #ffffff; font-size: 18px; font-weight: 650; }
+      .small { fill: #b9c5dc; font-size: 13px; }
+      .chip { fill: #12243a; stroke: #36516a; stroke-width: 1; }
+    </style>
+  </defs>
+  <rect width="1200" height="440" rx="24" fill="url(#bg)"/>
+  <circle cx="1080" cy="40" r="170" fill="#7b74ec" opacity=".08"/>
+  <circle cx="90" cy="400" r="150" fill="#55d8c1" opacity=".07"/>
+
+  <text x="56" y="68" fill="#ffffff" font-size="26" font-weight="700">A useful context pack, without the repository dump.</text>
+  <text x="56" y="98" class="muted" font-size="15">Local inputs → bounded, explainable selection → a stable handoff for people and tools</text>
+  <rect x="1010" y="45" width="134" height="32" rx="16" fill="#243652" stroke="#3f587d"/>
+  <text x="1077" y="66" fill="#cbd8f3" font-size="12" font-weight="700" text-anchor="middle" letter-spacing="1">LOCAL · OFFLINE</text>
+
+  <g filter="url(#shadow)">
+    <rect x="48" y="148" width="238" height="192" rx="18" fill="#1b2841" stroke="#384a6c"/>
+    <rect x="326" y="148" width="258" height="192" rx="18" fill="#1b2841" stroke="#384a6c"/>
+    <rect x="624" y="148" width="258" height="192" rx="18" fill="#1b2841" stroke="#384a6c"/>
+    <rect x="922" y="148" width="230" height="192" rx="18" fill="#1b2841" stroke="#384a6c"/>
+  </g>
+
+  <path d="M292 244h25" stroke="#7184b4" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M590 244h25" stroke="#7184b4" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M888 244h25" stroke="#7184b4" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <g transform="translate(72 174)">
+    <rect width="34" height="34" rx="10" fill="#214754"/>
+    <path d="M9 11h16v15H9zM13 8h16v15" fill="none" stroke="#79e0d3" stroke-width="2" stroke-linejoin="round"/>
+    <text x="48" y="24" class="label">Choose</text>
+    <text x="0" y="68" class="body">A Git repository</text>
+    <text x="0" y="94" class="small">Changed files</text>
+    <text x="0" y="114" class="small">or an explicit selection</text>
+    <rect x="0" y="137" width="166" height="27" rx="13.5" class="chip"/>
+    <text x="83" y="155" text-anchor="middle" fill="#9ce7dc" font-size="12">task-focused inputs</text>
+  </g>
+
+  <g transform="translate(350 174)">
+    <rect width="34" height="34" rx="10" fill="#38375b"/>
+    <path d="M10 11h14M10 17h14M10 23h9" stroke="#b7a7ff" stroke-width="2" stroke-linecap="round"/>
+    <text x="48" y="24" class="label">Filter &amp; bound</text>
+    <text x="0" y="68" class="body">Ignore rules · deduplication</text>
+    <text x="0" y="94" class="small">Byte and estimated-token budgets</text>
+    <text x="0" y="114" class="small">Stable ordering</text>
+    <rect x="0" y="137" width="190" height="27" rx="13.5" class="chip"/>
+    <text x="95" y="155" text-anchor="middle" fill="#cbbdff" font-size="12">explainable exclusions</text>
+  </g>
+
+  <g transform="translate(648 174)">
+    <rect width="34" height="34" rx="10" fill="#3d3b30"/>
+    <path d="M11 10h12l5 5v12H11zM23 10v6h5M15 20h9M15 24h9" fill="none" stroke="#f3d48b" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
+    <text x="48" y="24" class="label">Assemble</text>
+    <text x="0" y="68" class="body">A compact, deterministic pack</text>
+    <text x="0" y="94" class="small">Only selected content, within budget</text>
+    <text x="0" y="114" class="small">No provider call required</text>
+    <rect x="0" y="137" width="168" height="27" rx="13.5" class="chip"/>
+    <text x="84" y="155" text-anchor="middle" fill="#f4ddaa" font-size="12">ready to review</text>
+  </g>
+
+  <g transform="translate(946 174)">
+    <rect width="34" height="34" rx="10" fill="#244544"/>
+    <path d="M10 10h14v18H10zM14 15h7M14 19h7M14 23h5" fill="none" stroke="#9ce7dc" stroke-width="1.8" stroke-linecap="round"/>
+    <text x="48" y="24" class="label">Hand off</text>
+    <text x="0" y="68" class="body">Markdown</text>
+    <text x="0" y="92" class="small">For people and agent prompts</text>
+    <text x="0" y="119" class="body">JSON</text>
+    <text x="0" y="143" class="small">For tools and automation</text>
+  </g>
+
+  <path d="M48 374h1104" stroke="#33415f" stroke-width="1"/>
+  <circle cx="62" cy="402" r="4" fill="url(#accent)"/>
+  <text x="76" y="407" class="small">Review the generated pack before sharing: repository content can be sensitive.</text>
+  <text x="1144" y="407" fill="#7f90b3" font-size="12" text-anchor="end">context-pack</text>
+</svg>

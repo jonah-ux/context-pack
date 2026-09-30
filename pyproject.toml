@@ -1,19 +1,47 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "context_pack"
+name = "context-pack"
 version = "0.1.0"
-description = "bounded context pack builder"
+description = "Build focused, deterministic context packs from Git repositories"
 readme = "README.md"
 requires-python = ">=3.11"
-license = {file = "LICENSE"}
-authors = [{name = "Jonah Helland"}]
+license = "MIT"
+authors = [{ name = "Jonah Helland" }]
+keywords = ["context", "coding-agents", "git", "cli", "developer-tools"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Software Development",
+  "Topic :: Utilities",
+]
 dependencies = []
+
+[project.optional-dependencies]
+test = ["pytest>=8.0"]
 
 [project.scripts]
 context-pack = "context_pack.cli:main"
 
+[project.urls]
+Homepage = "https://github.com/jonah-ux/context-pack"
+Repository = "https://github.com/jonah-ux/context-pack"
+Issues = "https://github.com/jonah-ux/context-pack/issues"
+Changelog = "https://github.com/jonah-ux/context-pack/blob/main/CHANGELOG.md"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
 [tool.setuptools.packages.find]
 where = ["src"]
+include = ["context_pack*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

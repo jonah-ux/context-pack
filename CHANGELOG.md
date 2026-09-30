@@ -1,5 +1,8 @@
 # Changelog
 
-## 0.1.0 - 2026-09-30
+Notable changes to `context-pack` are documented here. This project follows [Semantic Versioning](https://semver.org/).
 
-Initial focused release with a stable CLI contract and synthetic demo.
+## Unreleased
+
+- Initial public project documentation and Python package metadata.
+- Establish Python 3.11+ support and cross-platform CI for Ubuntu and macOS.
