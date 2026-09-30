@@ -25,6 +25,18 @@ Build a bounded pack from the current repository:
 context-pack build . --max-bytes 12000 --out context-pack.md
 ```
 
+## See it work
+
+The demo reports the bounded file set, byte count, and digest so another agent can verify the same pack:
+
+```json
+{"schema":"context-pack/v1","bytes":38,"files":["README.md","hello.py"],"sha256":"fdd85e8274d91d749c3ad18802483589da4272643eee9d6475c84d0f88c9a6a1"}
+```
+
+## Related tools
+
+Use [Chatlens](https://github.com/jonah-ux/chatlens) to recover prior context, [Agent Eval Kit](https://github.com/jonah-ux/agent-eval-kit) to test a promptable command, and [Agent Resume](https://github.com/jonah-ux/agent-resume) to carry the exact repository identity forward.
+
 The `context-pack/v1` JSON summary reports the selected files, byte count, root, and digest.
 The Markdown output stays readable in a text editor and easy for an agent to ingest.
 
