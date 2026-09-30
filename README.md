@@ -7,7 +7,7 @@
 ## Install
 
 ```bash
-pip install git+https://github.com/jonah-ux/context-pack.git@v0.1.0
+pip install git+https://github.com/jonah-ux/context-pack.git@main
 ```
 
 ## Quick start
