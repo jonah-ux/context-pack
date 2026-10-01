@@ -25,6 +25,28 @@ Build a bounded pack from the current repository:
 context-pack build . --max-bytes 12000 --out context-pack.md
 ```
 
+Create a redacted provenance manifest beside the pack, then verify the source selection and
+rendered pack later:
+
+```bash
+context-pack build . --max-bytes 12000 --out context-pack.md --manifest context-pack.json
+context-pack verify . --manifest context-pack.json
+```
+
+The `context-pack/manifest/v1` document records the selection policy, selected relative paths,
+file sizes, SHA-256 content digests, skipped-file reasons, pack digest, and tool version. It does
+not copy source text into the manifest. Verification exits `1` when source files, the pack, or the
+manifest digest has changed. Compare two authenticated manifests without reading source content:
+
+```bash
+context-pack diff before/context-pack.json after/context-pack.json
+context-pack diff before/context-pack.json after/context-pack.json --check
+```
+
+`diff/v1` reports added, removed, and changed files plus selection-policy and digest changes;
+`--check` exits `1` when the source packs differ. Output locations are reported separately so a
+pack copied to another machine can still compare as the same source selection.
+
 ## See it work
 
 The demo reports the bounded file set, byte count, and digest so another agent can verify the same pack:
@@ -39,6 +61,10 @@ Use [Chatlens](https://github.com/jonah-ux/chatlens) to recover prior context, [
 
 The `context-pack/v1` JSON summary reports the selected files, byte count, root, and digest.
 The Markdown output stays readable in a text editor and easy for an agent to ingest.
+
+Manifest paths are relative to the packed root, and manifest verification is fail-closed. The
+manifest is a provenance snapshot of the selected source state; it is not a signature or a
+complete repository backup.
 
 ## Development
 
