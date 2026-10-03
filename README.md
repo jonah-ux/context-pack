@@ -15,8 +15,10 @@ inspectable answer to “what context should this coding agent see?”
 ## Try it in 30 seconds
 
 ```bash
-python -m pip install git+https://github.com/jonah-ux/context-pack.git@main
-python demos/demo.py
+git clone https://github.com/jonah-ux/context-pack.git
+cd context-pack
+python3 -m pip install .
+python3 demos/demo.py
 ```
 
 Build a bounded pack from the current repository:
@@ -54,6 +56,17 @@ The demo reports the bounded file set, byte count, and digest so another agent c
 ```json
 {"schema":"context-pack/v1","bytes":38,"files":["README.md","hello.py"],"sha256":"fdd85e8274d91d749c3ad18802483589da4272643eee9d6475c84d0f88c9a6a1"}
 ```
+
+## Open the five-minute walkthrough
+
+The [bounded context walkthrough](docs/walkthrough.html) is a dependency-free, keyboard-friendly
+tour of the selection budget, skip reasons, manifest digest, and verification path. It uses an
+illustrative browser fixture so you can click through the states without pretending a browser has
+run your local CLI. Copy the commands in the final panel to reproduce the same ideas against a real
+checkout.
+
+The tiny joke is intentional: context-pack gives an agent the map and leaves the entire junk drawer
+outside the backpack.
 
 ## Related tools
 
