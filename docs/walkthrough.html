@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Context Pack · bounded context walkthrough</title>
+  <style>
+    :root{color-scheme:dark;--ink:#f4f7fb;--muted:#9aa8ba;--bg:#0b111c;--panel:#111b2a;--panel2:#172337;--line:#2a3b53;--cyan:#6ee7f2;--mint:#9af2c4;--amber:#ffd580;--rose:#ff91aa;--shadow:0 22px 70px #02050b99;font:15px/1.55 ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% 0,#1c3a4e 0,transparent 35%),var(--bg);color:var(--ink)}
+    a{color:var(--cyan)}button{font:inherit;color:inherit;cursor:pointer}button:focus-visible,a:focus-visible{outline:3px solid var(--amber);outline-offset:3px}
+    .wrap{width:min(1120px,calc(100% - 36px));margin:auto}.top{padding:24px 0 14px;display:flex;justify-content:space-between;gap:18px;align-items:center}.brand{display:flex;gap:10px;align-items:center;font-weight:800;letter-spacing:.04em}.dot{width:11px;height:11px;border-radius:50%;background:var(--mint);box-shadow:0 0 0 5px #9af2c41f,0 0 24px var(--mint)}.crumb{color:var(--muted);font-size:13px}.hero{display:grid;grid-template-columns:1.25fr .75fr;gap:28px;padding:54px 0 30px}.eyebrow{color:var(--mint);text-transform:uppercase;font-size:12px;letter-spacing:.16em;font-weight:800}.hero h1{font-size:clamp(38px,7vw,76px);line-height:.98;letter-spacing:-.07em;margin:15px 0 20px;max-width:750px}.hero p{color:var(--muted);font-size:18px;max-width:650px;margin:0}.hero-card{align-self:end;background:linear-gradient(145deg,#182c40,#111a29);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)}.hero-card strong{display:block;font-size:19px;margin-bottom:14px}.steps{display:grid;gap:13px}.step{display:grid;grid-template-columns:38px 1fr;gap:11px;align-items:center;color:var(--muted)}.step i{display:grid;place-items:center;width:34px;height:34px;border-radius:11px;background:#6ee7f214;border:1px solid #6ee7f255;color:var(--cyan);font-style:normal;font-weight:800}.step b{color:var(--ink);font-size:14px;display:block}.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}.chip{border:1px solid var(--line);border-radius:999px;padding:6px 10px;color:var(--muted);font-size:12px;background:#ffffff05}.notice{border-left:3px solid var(--amber);background:#ffd5800c;padding:12px 15px;color:#d9e0e9;border-radius:0 12px 12px 0;margin:8px 0 26px}.grid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}.panel{background:linear-gradient(180deg,#132033e8,#0f1826e8);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 12px 44px #02050b55}.panel h2{margin:0;font-size:18px;letter-spacing:-.02em}.panel .sub{color:var(--muted);font-size:13px;margin:5px 0 18px}.actions{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:19px}.btn{background:var(--cyan);color:#07131b;border:0;border-radius:10px;padding:9px 13px;font-weight:800}.btn.alt{background:#203149;color:var(--ink);border:1px solid var(--line)}.btn.warn{background:#493a22;color:var(--amber);border:1px solid #80632f}.bar{height:10px;border-radius:99px;background:#0a1019;overflow:hidden;border:1px solid var(--line);margin:10px 0 8px}.bar span{display:block;height:100%;width:38%;background:linear-gradient(90deg,var(--cyan),var(--mint));transition:width .35s ease}.meter-row{display:flex;justify-content:space-between;color:var(--muted);font-size:12px}.files{display:grid;gap:8px;margin-top:18px}.file{display:flex;align-items:center;gap:10px;border:1px solid var(--line);background:#ffffff03;border-radius:12px;padding:10px 12px}.file .icon{color:var(--cyan);font-family:ui-monospace,monospace}.file small{margin-left:auto;color:var(--muted);font-family:ui-monospace,monospace}.file.skip{opacity:.65}.file.skip .icon{color:var(--rose)}.tag{font-size:11px;border-radius:999px;padding:3px 8px;border:1px solid currentColor;margin-left:auto}.tag.keep{color:var(--mint)}.tag.skip{color:var(--rose)}.receipt{display:grid;gap:12px}.receipt-row{display:flex;justify-content:space-between;gap:18px;padding-bottom:10px;border-bottom:1px solid #ffffff12}.receipt-row span:first-child{color:var(--muted)}code,.code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}.receipt-row code{font-size:12px;color:var(--cyan);text-align:right;overflow-wrap:anywhere}.flow{margin:20px 0 18px;padding:15px;border-radius:15px;background:#08111d;border:1px solid var(--line)}.flow svg{width:100%;height:auto}.status{margin-top:18px;padding:12px;border-radius:12px;background:#9af2c410;border:1px solid #9af2c444;color:var(--mint);font-weight:700}.status.bad{background:#ff91aa0e;border-color:#ff91aa55;color:var(--rose)}.commands{margin-top:18px;background:#09111d;border:1px solid var(--line);border-radius:15px;padding:17px}.commands pre{white-space:pre-wrap;overflow:auto;color:#dce9f6;font-size:12px;margin:10px 0 0}.copy{float:right;border:1px solid var(--line);border-radius:7px;background:#15243a;color:var(--cyan);padding:4px 8px;font-size:11px}.footer{padding:40px 0 55px;color:var(--muted);font-size:13px;display:flex;justify-content:space-between;gap:18px}.kicker{color:var(--amber);font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+    @media(max-width:800px){.hero,.grid{grid-template-columns:1fr}.hero{padding-top:30px}.hero-card{max-width:none}.footer{display:block}.footer span{display:block;margin-top:8px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header class="top"><div class="brand"><span class="dot" aria-hidden="true"></span> CONTEXT PACK</div><div class="crumb">docs / walkthrough / v1</div></header>
+    <section class="hero" aria-labelledby="title">
+      <div><div class="eyebrow">Bounded context, fewer mystery novels</div><h1 id="title">Give an agent the map. Keep the junk drawer.</h1><p>Context Pack walks a repository in a stable order, fills a byte budget, and leaves behind a digest you can inspect later. This little tour shows the contract before you hand it to an agent.</p><div class="chips"><span class="chip">Python 3.11+</span><span class="chip">offline-friendly</span><span class="chip">no runtime deps</span><span class="chip">SHA-256 receipts</span></div></div>
+      <aside class="hero-card"><strong>The three-beat run</strong><div class="steps"><div class="step"><i>01</i><div><b>Select</b>walk sorted paths until the budget is full</div></div><div class="step"><i>02</i><div><b>Render</b>write readable Markdown plus a manifest</div></div><div class="step"><i>03</i><div><b>Verify</b>re-read the same evidence and fail closed on drift</div></div></div></aside>
+    </section>
+    <div class="notice"><b>Browser model:</b> the controls below are an illustrative synthetic fixture. They animate the state machine only; they do not run your filesystem or pretend to be a backend. Use the copyable CLI commands at the bottom for the real thing.</div>
+    <section class="grid" aria-label="Context pack walkthrough">
+      <article class="panel"><div class="kicker">01 / selection budget</div><h2>What makes the cut?</h2><p class="sub">The pack is a deliberate slice, not a surprise zip file.</p><div class="actions"><button class="btn" data-action="build">Build 12 KB pack</button><button class="btn alt" data-action="tighten">Tighten budget</button><button class="btn warn" data-action="tamper">Simulate source drift</button></div><div class="meter-row"><span>budget used</span><strong id="budget-text">4.6 KB / 12 KB</strong></div><div class="bar" aria-label="Synthetic byte budget"><span id="budget-bar"></span></div><div class="files" id="file-list" aria-live="polite"></div></article>
+      <article class="panel"><div class="kicker">02 / authenticated receipt</div><h2>Small enough to review</h2><p class="sub">Every included file gets a digest; skipped files get a reason.</p><div class="flow"><svg viewBox="0 0 440 94" role="img" aria-label="select, render, verify flow"><path d="M30 47h380" stroke="#2a3b53" stroke-width="3" stroke-dasharray="7 8"/><circle cx="55" cy="47" r="18" fill="#172f3b" stroke="#6ee7f2"/><circle cx="220" cy="47" r="18" fill="#20372f" stroke="#9af2c4"/><circle cx="385" cy="47" r="18" fill="#443522" stroke="#ffd580"/><text x="55" y="52" text-anchor="middle" fill="#6ee7f2" font-size="11" font-weight="800">S</text><text x="220" y="52" text-anchor="middle" fill="#9af2c4" font-size="11" font-weight="800">R</text><text x="385" y="52" text-anchor="middle" fill="#ffd580" font-size="11" font-weight="800">V</text><text x="55" y="85" text-anchor="middle" fill="#9aa8ba" font-size="11">select</text><text x="220" y="85" text-anchor="middle" fill="#9aa8ba" font-size="11">render</text><text x="385" y="85" text-anchor="middle" fill="#9aa8ba" font-size="11">verify</text></svg></div><div class="receipt" id="receipt" aria-live="polite"></div><div class="status" id="status" role="status">Ready to build the synthetic pack.</div></article>
+    </section>
+    <section class="commands panel" aria-labelledby="commands-title"><div class="kicker">03 / reproduce locally</div><h2 id="commands-title">The browser is a tour guide. Your terminal is the witness.</h2><p class="sub">These commands match the current CLI and need only Python 3.11+.</p><button class="copy" data-copy="commands-text">copy</button><pre id="commands-text">git clone https://github.com/jonah-ux/context-pack.git
+cd context-pack
+python3 -m venv .venv
+. .venv/bin/activate
+python3 -m pip install .
+context-pack build . --max-bytes 12000 --out context-pack.md --manifest context-pack.json
+context-pack verify . --manifest context-pack.json
+context-pack diff before/context-pack.json after/context-pack.json --check</pre></section>
+    <footer class="footer"><span>Context Pack is a bounded, deterministic source selection tool — not a backup, signature, or oracle.</span><span><a href="https://github.com/jonah-ux/context-pack#readme">Back to README</a> · <a href="https://github.com/jonah-ux/context-pack">GitHub</a></span></footer>
+  </main>
+  <script>
+    (()=>{
+      const files=[
+        {path:'README.md',size:'1.2 KB',bytes:1200,keep:true},
+        {path:'src/context_pack/cli.py',size:'2.4 KB',bytes:2400,keep:true},
+        {path:'tests/test_cli.py',size:'1.0 KB',bytes:1000,keep:true},
+        {path:'.env',size:'0.2 KB',bytes:200,keep:false,reason:'policy: secret-looking file'},
+        {path:'node_modules/',size:'18 MB',bytes:18000000,keep:false,reason:'excluded directory'},
+        {path:'dist/context_pack.whl',size:'9.8 KB',bytes:9800,keep:false,reason:'byte budget'}
+      ];
+      const state={budget:12000,tampered:false,built:false};
+      const $=s=>document.querySelector(s);
+      function render(){
+        const selected=files.filter(f=>f.keep); const used=state.built?selected.reduce((n,f)=>n+f.bytes,0):4600; const pct=Math.min(100,used/state.budget*100);
+        $('#budget-text').textContent=`${(used/1000).toFixed(1)} KB / ${(state.budget/1000).toFixed(0)} KB`;
+        $('#budget-bar').style.width=`${pct}%`;
+        $('#file-list').innerHTML=files.map(f=>`<div class="file ${f.keep?'':'skip'}"><span class="icon">${f.keep?'↳':'×'}</span><code>${f.path}</code><small>${f.size}</small><span class="tag ${f.keep?'keep':'skip'}">${f.keep?'included':f.reason}</span></div>`).join('');
+        const digest=state.tampered?'mismatch · source changed':'fdd85e8274d91d7…';
+        $('#receipt').innerHTML=`<div class="receipt-row"><span>schema</span><code>context-pack/manifest/v1</code></div><div class="receipt-row"><span>selected files</span><code>${state.built?selected.length:3} of ${files.length}</code></div><div class="receipt-row"><span>pack SHA-256</span><code>${digest}</code></div><div class="receipt-row"><span>skipped with reasons</span><code>3 recorded</code></div>`;
+        const status=$('#status'); status.className=`status${state.tampered?' bad':''}`; status.textContent=state.tampered?'VERIFY REFUSED · the displayed source no longer matches the receipt.':'READY · bounded selection has an inspectable receipt.';
+      }
+      document.querySelectorAll('[data-action]').forEach(button=>button.addEventListener('click',()=>{const action=button.dataset.action;if(action==='build'){state.built=true;state.tampered=false}else if(action==='tighten'){state.budget=6000;state.built=true;state.tampered=false}else{state.tampered=true}render()}));
+      document.querySelectorAll('[data-copy]').forEach(button=>button.addEventListener('click',async()=>{const target=$(`#${button.dataset.copy}`);try{await navigator.clipboard.writeText(target.textContent);button.textContent='copied';setTimeout(()=>button.textContent='copy',1200)}catch{button.textContent='select manually'}}));
+      render();
+    })();
+  </script>
+</body>
+</html>
