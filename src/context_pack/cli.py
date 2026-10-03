@@ -66,6 +66,83 @@ def _atomic_write(path: Path, content: str) -> None:
         raise
 
 
+def _stage_write(path: Path, content: str) -> Path:
+    """Write one durable temporary artifact beside its final destination."""
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fd, temporary = tempfile.mkstemp(prefix=f".{path.name}.stage-", dir=path.parent)
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8", newline="") as handle:
+            handle.write(content)
+            handle.flush()
+            os.fsync(handle.fileno())
+        return Path(temporary)
+    except BaseException:
+        try:
+            os.unlink(temporary)
+        except FileNotFoundError:
+            pass
+        raise
+
+
+def _remove_if_present(path: Path) -> None:
+    try:
+        path.unlink()
+    except FileNotFoundError:
+        pass
+
+
+def _publish_pair(output: Path, pack: str, manifest: Path, manifest_text: str) -> None:
+    """Publish pack + manifest together, rolling back on a publication failure.
+
+    Filesystems do not offer a two-path atomic rename. Staging both files and retaining
+    one-shot backups of existing targets gives callers a bounded transaction: a raised
+    publication error restores the previous pair or removes the newly published sibling.
+    """
+
+    if output == manifest:
+        raise ValueError("manifest and output must be different paths")
+    for path, label in ((output, "output"), (manifest, "manifest")):
+        path.parent.mkdir(parents=True, exist_ok=True)
+        _safe_artifact(path, label)
+
+    targets = ((output, pack), (manifest, manifest_text))
+    staged: list[tuple[Path, Path]] = []
+    backups: dict[Path, Path] = {}
+    published: list[Path] = []
+    try:
+        staged = [(path, _stage_write(path, content)) for path, content in targets]
+        for path, _content in targets:
+            if path.exists():
+                fd, backup_name = tempfile.mkstemp(prefix=f".{path.name}.backup-", dir=path.parent)
+                os.close(fd)
+                backup = Path(backup_name)
+                _remove_if_present(backup)
+                os.replace(path, backup)
+                backups[path] = backup
+        for path, temporary in staged:
+            os.replace(temporary, path)
+            published.append(path)
+        for path, _content in targets:
+            directory_fd = os.open(path.parent, os.O_RDONLY | getattr(os, "O_DIRECTORY", 0))
+            try:
+                os.fsync(directory_fd)
+            finally:
+                os.close(directory_fd)
+    except BaseException:
+        for path in reversed(published):
+            _remove_if_present(path)
+        for path, backup in backups.items():
+            if backup.exists():
+                os.replace(backup, path)
+        raise
+    finally:
+        for _path, temporary in staged:
+            _remove_if_present(temporary)
+        for backup in backups.values():
+            _remove_if_present(backup)
+
+
 def _render_body(files: list[dict[str, Any]]) -> str:
     blocks = []
     quote = chr(96)
@@ -317,7 +394,6 @@ def build(
     if manifest_resolved is not None:
         artifacts.add(manifest_resolved)
     selection = _collect(root, budget, excluded, artifacts)
-    _atomic_write(output, selection["pack"])
     result: dict[str, Any] = {
         "schema": "context-pack/v1",
         "root": str(root),
@@ -329,9 +405,16 @@ def build(
     }
     if manifest_path is not None:
         manifest = _manifest(root, output_resolved, manifest_resolved, budget, excluded, selection)
-        _atomic_write(manifest_path, json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True) + "\n")
+        _publish_pair(
+            output,
+            selection["pack"],
+            manifest_path,
+            json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+        )
         result["manifest"] = str(manifest_path)
         result["manifest_sha256"] = manifest["manifest_sha256"]
+    else:
+        _atomic_write(output, selection["pack"])
     return result
 
 

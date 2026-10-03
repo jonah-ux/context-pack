@@ -37,6 +37,11 @@ context-pack build . --max-bytes 12000 --out context-pack.md --manifest context-
 context-pack verify . --manifest context-pack.json
 ```
 
+When `--manifest` is supplied, the pack and authenticated manifest are staged
+before publication. If either publication step fails, the new pair is rolled
+back (and any prior pair is restored) so a write refusal does not leave a new
+pack without its manifest.
+
 The `context-pack/manifest/v1` document records the selection policy, selected relative paths,
 file sizes, SHA-256 content digests, skipped-file reasons, pack digest, and tool version. It does
 not copy source text into the manifest. Verification exits `1` when source files, the pack, or the
