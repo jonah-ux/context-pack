@@ -17,6 +17,8 @@ inspectable answer to “what context should this coding agent see?”
 ```bash
 git clone https://github.com/jonah-ux/context-pack.git
 cd context-pack
+python3 -m venv .venv
+. .venv/bin/activate
 python3 -m pip install .
 python3 demos/demo.py
 ```

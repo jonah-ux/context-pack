@@ -27,6 +27,8 @@
     </section>
     <section class="commands panel" aria-labelledby="commands-title"><div class="kicker">03 / reproduce locally</div><h2 id="commands-title">The browser is a tour guide. Your terminal is the witness.</h2><p class="sub">These commands match the current CLI and need only Python 3.11+.</p><button class="copy" data-copy="commands-text">copy</button><pre id="commands-text">git clone https://github.com/jonah-ux/context-pack.git
 cd context-pack
+python3 -m venv .venv
+. .venv/bin/activate
 python3 -m pip install .
 context-pack build . --max-bytes 12000 --out context-pack.md --manifest context-pack.json
 context-pack verify . --manifest context-pack.json
