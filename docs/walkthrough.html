@@ -5,46 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Context Pack · bounded context walkthrough</title>
   <style>
-    :root{color-scheme:dark;--ink:#f4f7fb;--muted:#9aa8ba;--bg:#0b111c;--panel:#111b2a;--panel2:#172337;--line:#2a3b53;--cyan:#6ee7f2;--mint:#9af2c4;--amber:#ffd580;--rose:#ff91aa;--shadow:0 22px 70px #02050b99;font:15px/1.55 ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    :root{color-scheme:dark;--ink:#f4f7fb;--muted:#9aa8ba;--bg:#0b111c;--panel:#111b2a;--line:#2a3b53;--cyan:#6ee7f2;--mint:#9af2c4;--amber:#ffd580;--rose:#ff91aa;--shadow:0 22px 70px #02050b99;font:15px/1.55 ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
     *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% 0,#1c3a4e 0,transparent 35%),var(--bg);color:var(--ink)}
     a{color:var(--cyan)}button{font:inherit;color:inherit;cursor:pointer}button:focus-visible,a:focus-visible{outline:3px solid var(--amber);outline-offset:3px}
-    .wrap{width:min(1120px,calc(100% - 36px));margin:auto}.top{padding:24px 0 14px;display:flex;justify-content:space-between;gap:18px;align-items:center}.brand{display:flex;gap:10px;align-items:center;font-weight:800;letter-spacing:.04em}.dot{width:11px;height:11px;border-radius:50%;background:var(--mint);box-shadow:0 0 0 5px #9af2c41f,0 0 24px var(--mint)}.crumb{color:var(--muted);font-size:13px}.hero{display:grid;grid-template-columns:1fr;gap:28px;padding:54px 0 30px}.eyebrow{color:var(--mint);text-transform:uppercase;font-size:12px;letter-spacing:.16em;font-weight:800}.hero h1{font-size:clamp(38px,7vw,76px);line-height:.98;letter-spacing:-.07em;margin:15px 0 20px;max-width:750px}.hero p{color:var(--muted);font-size:18px;max-width:650px;margin:0}.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}.chip{border:1px solid var(--line);border-radius:999px;padding:6px 10px;color:var(--muted);font-size:12px;background:#ffffff05}.notice{border-left:3px solid var(--amber);background:#ffd5800c;padding:12px 15px;color:#d9e0e9;border-radius:0 12px 12px 0;margin:8px 0 26px}.grid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}.panel{background:linear-gradient(180deg,#132033e8,#0f1826e8);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 12px 44px #02050b55}.panel h2{margin:0;font-size:18px;letter-spacing:-.02em}.panel .sub{color:var(--muted);font-size:13px;margin:5px 0 18px}.actions{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:19px}.btn{background:var(--cyan);color:#07131b;border:0;border-radius:10px;padding:9px 13px;font-weight:800}.btn.alt{background:#203149;color:var(--ink);border:1px solid var(--line)}.btn.warn{background:#493a22;color:var(--amber);border:1px solid #80632f}.bar{height:10px;border-radius:99px;background:#0a1019;overflow:hidden;border:1px solid var(--line);margin:10px 0 8px}.bar span{display:block;height:100%;width:38%;background:linear-gradient(90deg,var(--cyan),var(--mint));transition:width .35s ease}.meter-row{display:flex;justify-content:space-between;color:var(--muted);font-size:12px}.files{display:grid;gap:8px;margin-top:18px}.file{display:flex;align-items:center;gap:10px;min-width:0;border:1px solid var(--line);background:#ffffff03;border-radius:12px;padding:10px 12px}.file .icon{color:var(--cyan);font-family:ui-monospace,monospace}.file small{margin-left:auto;color:var(--muted);font-family:ui-monospace,monospace}.file.skip{opacity:.65}.file.skip .icon{color:var(--rose)}.tag{font-size:11px;border-radius:999px;padding:3px 8px;border:1px solid currentColor;margin-left:auto}.tag.keep{color:var(--mint)}.tag.skip{color:var(--rose)}.receipt{display:grid;gap:12px}.receipt-row{display:flex;justify-content:space-between;gap:18px;padding-bottom:10px;border-bottom:1px solid #ffffff12}.receipt-row span:first-child{color:var(--muted)}code,.code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}.receipt-row code{font-size:12px;color:var(--cyan);text-align:right;overflow-wrap:anywhere}.status{margin-top:18px;padding:12px;border-radius:12px;background:#9af2c410;border:1px solid #9af2c444;color:var(--mint);font-weight:700}.status.bad{background:#ff91aa0e;border-color:#ff91aa55;color:var(--rose)}.commands{margin-top:18px;background:#09111d;border:1px solid var(--line);border-radius:15px;padding:17px}.commands pre{white-space:pre-wrap;overflow:auto;color:#dce9f6;font-size:12px;margin:10px 0 0}.copy{float:right;border:1px solid var(--line);border-radius:7px;background:#15243a;color:var(--cyan);padding:4px 8px;font-size:11px}.footer{padding:40px 0 55px;color:var(--muted);font-size:13px;display:flex;justify-content:space-between;gap:18px}.kicker{color:var(--amber);font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+    .wrap{width:min(1120px,calc(100% - 36px));margin:auto}.top{padding:24px 0 14px;display:flex;justify-content:space-between;gap:18px;align-items:center}.brand{display:flex;gap:10px;align-items:center;font-weight:800;letter-spacing:.04em}.dot{width:11px;height:11px;border-radius:50%;background:var(--mint);box-shadow:0 0 0 5px #9af2c41f,0 0 24px var(--mint)}.crumb{color:var(--muted);font-size:13px}.hero{display:grid;grid-template-columns:1fr;gap:28px;padding:54px 0 30px}.eyebrow{color:var(--mint);text-transform:uppercase;font-size:12px;letter-spacing:.16em;font-weight:800}.hero h1{font-size:clamp(38px,7vw,76px);line-height:.98;letter-spacing:-.07em;margin:15px 0 20px;max-width:750px}.hero p{color:var(--muted);font-size:18px;max-width:650px;margin:0}.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}.chip{border:1px solid var(--line);border-radius:999px;padding:6px 10px;color:var(--muted);font-size:12px;background:#ffffff05}.grid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}.panel{background:linear-gradient(180deg,#132033e8,#0f1826e8);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 12px 44px #02050b55}.panel h2{margin:0;font-size:18px;letter-spacing:-.02em}.panel .sub{color:var(--muted);font-size:13px;margin:5px 0 18px}.actions{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:19px}.btn{background:var(--cyan);color:#07131b;border:0;border-radius:10px;padding:9px 13px;font-weight:800}.btn.warn{background:#493a22;color:var(--amber);border:1px solid #80632f}.bar{height:10px;border-radius:99px;background:#0a1019;overflow:hidden;border:1px solid var(--line);margin:10px 0 8px}.bar span{display:block;height:100%;width:38%;background:linear-gradient(90deg,var(--cyan),var(--mint));transition:width .35s ease}.meter-row{display:flex;justify-content:space-between;color:var(--muted);font-size:12px}.files{display:grid;gap:8px;margin-top:18px}.file{display:flex;align-items:center;gap:10px;min-width:0;border:1px solid var(--line);background:#ffffff03;border-radius:12px;padding:10px 12px}.file .icon{color:var(--cyan);font-family:ui-monospace,monospace}.file small{margin-left:auto;color:var(--muted);font-family:ui-monospace,monospace}.file.skip{opacity:.65}.file.skip .icon{color:var(--rose)}.tag{font-size:11px;border-radius:999px;padding:3px 8px;border:1px solid currentColor;margin-left:auto}.tag.keep{color:var(--mint)}.tag.skip{color:var(--rose)}.receipt{display:grid;gap:12px}.receipt-row{display:flex;justify-content:space-between;gap:18px;padding-bottom:10px;border-bottom:1px solid #ffffff12}.receipt-row span:first-child{color:var(--muted)}code,.code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}.receipt-row code{font-size:12px;color:var(--cyan);text-align:right;overflow-wrap:anywhere}.status{margin-top:18px;padding:12px;border-radius:12px;background:#9af2c410;border:1px solid #9af2c444;color:var(--mint);font-weight:700}.status.bad{background:#ff91aa0e;border-color:#ff91aa55;color:var(--rose)}.commands{margin-top:18px;background:#09111d;border:1px solid var(--line);border-radius:15px;padding:17px}.commands pre{white-space:pre-wrap;overflow:auto;color:#dce9f6;font-size:12px;margin:10px 0 0}.copy{float:right;border:1px solid var(--line);border-radius:7px;background:#15243a;color:var(--cyan);padding:4px 8px;font-size:11px}.footer{padding:40px 0 55px;color:var(--muted);font-size:13px;display:flex;justify-content:space-between;gap:18px}.kicker{color:var(--amber);font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase}
     @media(max-width:800px){.hero,.grid{grid-template-columns:minmax(0,1fr)}.grid>.panel{min-width:0}.hero{padding-top:30px}.file{display:grid;grid-template-columns:16px minmax(0,1fr);align-items:start;gap:4px 10px}.file .icon{grid-column:1;grid-row:1 / span 3}.file code{grid-column:2;min-width:0;overflow-wrap:anywhere}.file small{grid-column:2;margin:0}.file .tag{grid-column:2;justify-self:start;max-width:100%;margin:2px 0 0;white-space:normal}.footer{display:block}.footer span{display:block;margin-top:8px}}
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 
-    .cohort-deck { position: relative; overflow: hidden; margin: 12px 0 30px; padding: 22px; border: 1px solid color-mix(in srgb, var(--deck-accent, var(--cyan, #72dcff)) 42%, var(--line, #263447)); border-radius: 22px; background: linear-gradient(135deg, color-mix(in srgb, var(--deck-accent, var(--cyan, #72dcff)) 10%, transparent), color-mix(in srgb, var(--panel, #101b2a) 94%, #000)); box-shadow: 0 24px 70px #0004; }
-    .cohort-deck::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at 88% 16%, color-mix(in srgb, var(--deck-accent, var(--cyan, #72dcff)) 22%, transparent), transparent 25%); opacity: .75; }
-    .cohort-deck > * { position: relative; z-index: 1; }
-    .cohort-deck-head { display: flex; align-items: start; justify-content: space-between; gap: 18px; margin-bottom: 18px; }
-    .cohort-deck-kicker { color: var(--deck-accent, var(--cyan, #72dcff)); font: 800 10px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .18em; text-transform: uppercase; }
-    .cohort-deck h2 { margin: 7px 0 5px; font-size: clamp(1.25rem, 2.4vw, 2rem); letter-spacing: -.04em; }
-    .cohort-deck-intro { max-width: 700px; margin: 0; color: var(--muted, #91a0b2); font-size: .92rem; }
-    .cohort-deck-badge { display: flex; flex-wrap: wrap; justify-content: end; gap: 7px; color: var(--deck-accent, var(--cyan, #72dcff)); font: 700 10px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .08em; text-transform: uppercase; }
-    .cohort-deck-badge span { border: 1px solid color-mix(in srgb, var(--deck-accent, var(--cyan, #72dcff)) 45%, var(--line, #263447)); border-radius: 999px; padding: 7px 9px; background: #ffffff08; }
-    .cohort-deck-body { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(220px, .8fr); gap: 18px; align-items: stretch; }
-    .cohort-deck-visual { min-height: 180px; display: grid; place-items: center; padding: 12px; border: 1px solid var(--line, #263447); border-radius: 16px; background: #050a12aa; }
-    .cohort-deck-visual svg { width: 100%; height: auto; max-height: 210px; }
-    .cohort-deck-route { fill: none; stroke: color-mix(in srgb, var(--deck-accent, var(--cyan, #72dcff)) 65%, #fff); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 7 10; opacity: .72; }
-    .cohort-deck-node circle { fill: var(--panel-2, #152337); stroke: var(--line, #263447); stroke-width: 2; transition: fill .28s ease, stroke .28s ease, transform .28s ease; transform-box: fill-box; transform-origin: center; }
-    .cohort-deck-node text { fill: var(--muted, #91a0b2); font: 800 10px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .12em; text-anchor: middle; }
-    .cohort-deck-node small { fill: var(--muted, #91a0b2); }
-    .cohort-deck-node[data-active='true'] circle { fill: color-mix(in srgb, var(--deck-accent, var(--cyan, #72dcff)) 28%, var(--panel-2, #152337)); stroke: var(--deck-accent, var(--cyan, #72dcff)); transform: scale(1.12); }
-    .cohort-deck-node[data-active='true'] text { fill: var(--deck-accent, var(--cyan, #72dcff)); }
-    .cohort-deck-node[data-complete='true'] circle { stroke: var(--deck-good, var(--mint, #9eeed0)); }
-    .cohort-deck-node[data-complete='true'] text { fill: var(--deck-good, var(--mint, #9eeed0)); }
-    .cohort-deck-axis { fill: var(--muted, #91a0b2); font: 10px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .1em; }
-    .cohort-deck-copy { display: flex; flex-direction: column; justify-content: space-between; padding: 16px 2px 12px 4px; }
-    .cohort-deck-copy h3 { margin: 7px 0 7px; font-size: 1.35rem; letter-spacing: -.04em; }
-    .cohort-deck-copy p { margin: 0; color: var(--muted, #91a0b2); font-size: .86rem; }
-    .cohort-deck-readout { margin-top: 16px; padding: 11px 12px; border-left: 3px solid var(--deck-good, var(--mint, #9eeed0)); background: #ffffff06; color: var(--deck-good, var(--mint, #9eeed0)); font: 700 .75rem/1.45 ui-monospace, SFMono-Regular, Menlo, monospace; }
-    .cohort-deck-next { align-self: start; margin-top: 15px; border: 1px solid var(--deck-accent, var(--cyan, #72dcff)); border-radius: 10px; padding: 9px 12px; color: var(--deck-accent, var(--cyan, #72dcff)); background: #ffffff08; font: 800 .72rem ui-monospace, SFMono-Regular, Menlo, monospace; cursor: pointer; }
-    .cohort-deck-next:hover, .cohort-deck-next:focus-visible { outline: 2px solid color-mix(in srgb, var(--deck-accent, var(--cyan, #72dcff)) 35%, transparent); outline-offset: 2px; background: #ffffff12; }
-    .cohort-deck-tabs { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 18px; }
-    .cohort-deck-tab { border: 1px solid var(--line, #263447); border-radius: 999px; padding: 7px 10px; color: var(--muted, #91a0b2); background: transparent; font: 800 .67rem ui-monospace, SFMono-Regular, Menlo, monospace; cursor: pointer; }
-    .cohort-deck-tab[aria-selected='true'] { border-color: var(--deck-accent, var(--cyan, #72dcff)); color: var(--deck-accent, var(--cyan, #72dcff)); background: color-mix(in srgb, var(--deck-accent, var(--cyan, #72dcff)) 12%, transparent); }
-    .cohort-deck-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; margin-top: 14px; color: var(--muted, #91a0b2); font: .68rem ui-monospace, SFMono-Regular, Menlo, monospace; }
-    @media (max-width: 720px) { .cohort-deck-head { display: block; } .cohort-deck-badge { justify-content: start; margin-top: 12px; } .cohort-deck-body { grid-template-columns: 1fr; } .cohort-deck-copy { padding-left: 0; } }
-    @media (prefers-reduced-motion: reduce) { .cohort-deck-node circle, .cohort-deck-route { transition: none !important; animation: none !important; } }
 
   </style>
 </head>
@@ -55,33 +22,11 @@
       <div><h1 id="title">Give an agent the map. Keep the junk drawer.</h1><p>Pack a stable, byte-bounded slice of a repository; its manifest lets you inspect the selection later.</p><div class="chips"><span class="chip">Python 3.11+</span><span class="chip">offline-friendly</span><span class="chip">no runtime deps</span><span class="chip">SHA-256 receipts</span></div></div>
 
     </section>
-    <section class="cohort-deck" data-cohort-deck="context-pack" style="--deck-accent: var(--cyan); --deck-good: var(--mint);" aria-labelledby="contextpack-deck-title">
-      <div class="cohort-deck-head">
-        <div><div class="cohort-deck-kicker">launch deck / synthetic state explorer</div><h2 id="contextpack-deck-title">Pack the smallest useful map.</h2><p class="cohort-deck-intro">Walk the selection contract as a tiny mission: choose files in order, render a readable pack, and verify its receipt. The browser state is synthetic; the local CLI is the witness.</p></div>
-        <div class="cohort-deck-badge"><span>local core</span><span id="contextpack-deck-badge">SELECT / RENDER / VERIFY</span></div>
-      </div>
-      <div class="cohort-deck-body">
-        <div class="cohort-deck-visual">
-          <svg viewBox="0 0 640 190" role="img" aria-labelledby="contextpack-rail-title contextpack-rail-desc">
-            <title id="contextpack-rail-title">SELECT / RENDER / VERIFY lifecycle rail</title><desc id="contextpack-rail-desc">Three synthetic states connected in order; choose a state button to inspect its readback.</desc>
-            <path class="cohort-deck-route" d="M72 95 C135 35 199 155 262 95 S389 35 452 95 S579 155 622 95"/>
-            <g class="cohort-deck-node" data-node="0" data-active="true" data-complete="false" tabindex="-1"><circle cx="72" cy="95" r="28"/><text x="72" y="99">SELECT</text></g><g class="cohort-deck-node" data-node="1" data-active="false" data-complete="false" tabindex="-1"><circle cx="262" cy="95" r="28"/><text x="262" y="99">RENDER</text></g><g class="cohort-deck-node" data-node="2" data-active="false" data-complete="false" tabindex="-1"><circle cx="452" cy="95" r="28"/><text x="452" y="99">VERIFY</text></g>
-            <text class="cohort-deck-axis" x="20" y="166">START</text><text class="cohort-deck-axis" x="578" y="166">READ BACK</text>
-          </svg>
-        </div>
-        <div class="cohort-deck-copy" role="tabpanel" aria-live="polite">
-          <div><div class="cohort-deck-kicker" id="contextpack-deck-kicker">beat 01 / select</div><h3 id="contextpack-deck-heading">Fill the byte budget</h3><p id="contextpack-deck-copy">Stable paths enter until the budget is full; secret-looking and oversized paths get reasons.</p><div class="cohort-deck-readout" id="contextpack-deck-readout">3 files included · 3 skipped</div></div>
-          <button class="cohort-deck-next" type="button" data-deck-next>next beat →</button>
-        </div>
-      </div>
-      <div class="cohort-deck-tabs" role="tablist" aria-label="Synthetic guide beats"><button class="cohort-deck-tab" type="button" role="tab" aria-selected="true" data-deck-step="0">01 · SELECT</button><button class="cohort-deck-tab" type="button" role="tab" aria-selected="false" data-deck-step="1">02 · RENDER</button><button class="cohort-deck-tab" type="button" role="tab" aria-selected="false" data-deck-step="2">03 · VERIFY</button></div>
-      <div class="cohort-deck-foot"><span>Synthetic state · no local file scan or real manifest is produced.</span><span>standalone CLI · no sibling install</span></div>
-    </section>
 
 
     <section class="grid" aria-label="Context pack walkthrough">
-      <article class="panel"><div class="kicker">01 / selection budget</div><h2>What makes the cut?</h2><p class="sub">The pack is a deliberate slice, not a surprise zip file.</p><div class="actions"><button class="btn" data-action="build">Build 12 KB pack</button><button class="btn alt" data-action="tighten">Tighten budget</button><button class="btn warn" data-action="tamper">Simulate source drift</button></div><div class="meter-row"><span>budget used</span><strong id="budget-text">4.6 KB / 12 KB</strong></div><div class="bar" aria-label="Synthetic byte budget"><span id="budget-bar"></span></div><div class="files" id="file-list" aria-live="polite"></div></article>
-      <article class="panel"><div class="kicker">02 / authenticated receipt</div><h2>Small enough to review</h2><p class="sub">Every included file gets a digest; skipped files get a reason.</p><div class="receipt" id="receipt" aria-live="polite"></div><div class="status" id="status" role="status">Ready to build the synthetic pack.</div></article>
+      <article class="panel"><div class="kicker">01 / selection budget</div><h2>What makes the cut?</h2><p class="sub">Included files count toward the byte budget; excluded files keep their reasons.</p><div class="actions"><button class="btn" data-action="build">Reset fixture</button><button class="btn warn" data-action="tamper">Simulate source drift</button></div><div class="meter-row"><span>budget used</span><strong id="budget-text">4.6 KB / 12 KB</strong></div><div class="bar" aria-label="Synthetic byte budget"><span id="budget-bar"></span></div><div class="files" id="file-list" aria-live="polite"></div></article>
+      <article class="panel"><div class="kicker">02 / manifest receipt</div><h2>Small enough to review</h2><p class="sub">Every included file gets a digest; skipped files get a reason.</p><div class="receipt" id="receipt" aria-live="polite"></div><div class="status" id="status" role="status">Ready to inspect the synthetic fixture.</div></article>
     </section>
     <section class="commands panel" aria-labelledby="commands-title"><div class="kicker">03 / reproduce locally</div><h2 id="commands-title">Build and verify a real pack.</h2><p class="sub">Copy the install, build, and verify commands below.</p><button class="copy" data-copy="commands-text">copy</button><pre id="commands-text">git clone https://github.com/jonah-ux/context-pack.git
 cd context-pack
@@ -103,52 +48,23 @@ context-pack diff context-pack.json context-pack-after.json --check</pre></detai
         {path:'node_modules/',size:'18 MB',bytes:18000000,keep:false,reason:'excluded directory'},
         {path:'dist/context_pack.whl',size:'9.8 KB',bytes:9800,keep:false,reason:'byte budget'}
       ];
-      const state={budget:12000,tampered:false,built:false};
+      const state={budget:12000,tampered:false};
       const $=s=>document.querySelector(s);
       function render(){
-        const selected=files.filter(f=>f.keep); const used=state.built?selected.reduce((n,f)=>n+f.bytes,0):4600; const pct=Math.min(100,used/state.budget*100);
+        const selected=files.filter(f=>f.keep); const used=selected.reduce((n,f)=>n+f.bytes,0); const pct=Math.min(100,used/state.budget*100);
         $('#budget-text').textContent=`${(used/1000).toFixed(1)} KB / ${(state.budget/1000).toFixed(0)} KB`;
         $('#budget-bar').style.width=`${pct}%`;
         $('#file-list').innerHTML=files.map(f=>`<div class="file ${f.keep?'':'skip'}"><span class="icon">${f.keep?'↳':'×'}</span><code>${f.path}</code><small>${f.size}</small><span class="tag ${f.keep?'keep':'skip'}">${f.keep?'included':f.reason}</span></div>`).join('');
         const digest=state.tampered?'mismatch · source changed':'fdd85e8274d91d7…';
-        $('#receipt').innerHTML=`<div class="receipt-row"><span>schema</span><code>context-pack/manifest/v1</code></div><div class="receipt-row"><span>selected files</span><code>${state.built?selected.length:3} of ${files.length}</code></div><div class="receipt-row"><span>pack SHA-256</span><code>${digest}</code></div><div class="receipt-row"><span>skipped with reasons</span><code>3 recorded</code></div>`;
+        $('#receipt').innerHTML=`<div class="receipt-row"><span>schema</span><code>context-pack/manifest/v1</code></div><div class="receipt-row"><span>selected files</span><code>${selected.length} of ${files.length}</code></div><div class="receipt-row"><span>pack SHA-256</span><code>${digest}</code></div><div class="receipt-row"><span>skipped with reasons</span><code>3 recorded</code></div>`;
         const status=$('#status'); status.className=`status${state.tampered?' bad':''}`; status.textContent=state.tampered?'VERIFY REFUSED · the displayed source no longer matches the receipt.':'READY · bounded selection has an inspectable receipt.';
       }
-      document.querySelectorAll('[data-action]').forEach(button=>button.addEventListener('click',()=>{const action=button.dataset.action;if(action==='build'){state.built=true;state.tampered=false}else if(action==='tighten'){state.budget=6000;state.built=true;state.tampered=false}else{state.tampered=true}render()}));
+      document.querySelectorAll('[data-action]').forEach(button=>button.addEventListener('click',()=>{const action=button.dataset.action;if(action==='build'){state.tampered=false}else{state.tampered=true}render()}));
       document.querySelectorAll('[data-copy]').forEach(button=>button.addEventListener('click',async()=>{const target=$(`#${button.dataset.copy}`);try{await navigator.clipboard.writeText(target.textContent);button.textContent='copied';setTimeout(()=>button.textContent='copy',1200)}catch{button.textContent='select manually'}}));
       render();
     })();
   </script>
 
-<script>
-(() => {
-  const deck = document.querySelector('[data-cohort-deck="context-pack"]');
-  if (!deck) return;
-  const steps = [{"label": "SELECT", "heading": "Fill the byte budget", "copy": "Stable paths enter until the budget is full; secret-looking and oversized paths get reasons.", "readout": "3 files included · 3 skipped"}, {"label": "RENDER", "heading": "Publish pack + manifest", "copy": "Readable Markdown and an authenticated manifest travel as one deliberate output.", "readout": "context-pack/manifest/v1"}, {"label": "VERIFY", "heading": "Refuse source drift", "copy": "A changed source produces a mismatch instead of a quietly trusted pack.", "readout": "VERIFY REFUSED · drift visible"}];
-  const tabs = Array.from(deck.querySelectorAll('[data-deck-step]'));
-  const nodes = Array.from(deck.querySelectorAll('.cohort-deck-node'));
-  const kicker = deck.querySelector('#contextpack-deck-kicker');
-  const heading = deck.querySelector('#contextpack-deck-heading');
-  const copy = deck.querySelector('#contextpack-deck-copy');
-  const readout = deck.querySelector('#contextpack-deck-readout');
-  let current = 0;
-  function render(index) {
-    current = (index + steps.length) % steps.length;
-    const item = steps[current];
-    kicker.textContent = `beat ${String(current + 1).padStart(2, '0')} / ${item.label.toLowerCase()}`;
-    heading.textContent = item.heading;
-    copy.textContent = item.copy;
-    readout.textContent = item.readout;
-    tabs.forEach((tab, i) => tab.setAttribute('aria-selected', String(i === current)));
-    nodes.forEach((node, i) => {
-      node.dataset.active = String(i === current);
-      node.dataset.complete = String(i < current);
-    });
-  }
-  tabs.forEach((tab, i) => tab.addEventListener('click', () => render(i)));
-  deck.querySelector('[data-deck-next]').addEventListener('click', () => render(current + 1));
-  render(0);
-})();
-</script>
+
 </body>
 </html>
